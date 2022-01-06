@@ -52,31 +52,5 @@ namespace OrderBot.Commands
 			await ctx.Channel.SendMessageAsync(message.Result.Emoji);
 		}
 
-		[Command("rule34")]
-		[Description("posts *images*")]
-		public async Task rule34(CommandContext message, string query)
-		{
-			try
-			{
-				var rule34 = new BooruSharp.Booru.Rule34();
-				BooruSharp.Search.Post.SearchResult result = await rule34.GetRandomImageAsync(query);
-				string listedTags = string.Join(", ", result.tags);
-				var pronEmbed = new DiscordEmbedBuilder
-				{
-					Title = listedTags,
-					Description = "rating: " + result.score,
-					ImageUrl = result.fileUrl.AbsoluteUri
-
-				};
-				await message.RespondAsync(embed: pronEmbed);
-
-			}
-			catch (InvalidTags e)
-			{
-				await message.RespondAsync("``" + e.Message + "``");
-
-			}
-
-		}
 	}
 }
